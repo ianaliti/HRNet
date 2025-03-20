@@ -1,5 +1,6 @@
 import React from 'react'
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 
 export default function EmployeeList() {
     const { handleSubmit, formState: { errors } } = useForm()
@@ -12,7 +13,7 @@ export default function EmployeeList() {
                 <h1>HRnet</h1>
             </div>
             <div class="container">
-                <a href="employee-list.html">View Current Employees</a>
+                <Link to=''>View Current Employees</Link>
                 <h2>Create Employee</h2>
                 <form action="#" id="create-employee">
                     <label for="first-name">First Name</label>

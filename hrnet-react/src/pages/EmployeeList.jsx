@@ -1,65 +1,93 @@
 import React from 'react'
-import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 
 export default function EmployeeList() {
-    const { handleSubmit, formState: { errors } } = useForm()
-    const { handleSubmit: handleSubmitRegister, formState: { errors: errorsRegister }, reset } = useForm();
-
-
-    const saveEmployee = () => {
-
-    }
     return (
-        <div>
+        <div className='main'>
             <div className="title">
                 <h1>HRnet</h1>
             </div>
             <div className="container">
                 <Link to=''>View Current Employees</Link>
                 <h2>Create Employee</h2>
-                <form action="#" id="create-employee">
-                    <label htmlFor="first-name">First Name</label>
-                    <input type="text" id="first-name" />
+                <Formik
+                    initialValues={{ firstName: '', lastName: '', dateOfBirth: '', startDate: '', street: '', city: '', state: '', zipCode: '', department: '' }}
+                    validationShema={Yup.object({
+                        firstName: Yup.string().required("Required"),
+                        lastName: Yup.string().required("Required"),
+                        dateOfBirth: Yup.string().required("Required"),
+                        startDate: Yup.string().required("Required"),
+                        street: Yup.string().required("Required"),
+                        city: Yup.string().required("Required"),
+                        state: Yup.string().required("Required"),
+                        zipCode: Yup.number().required("Required").min(10000, "Must be a 5-digit number"),
+                        department: Yup.string().required("Required"),
+                    })}
+                    onSubmit={(values) => console.log(values)}
+                >
+                    <Form>
+                        <div className='empolyee-form'>
+                            <div className='personal-info'>
+                                <label>First Name</label>
+                                <Field type="text" name="firstName" />
+                                <ErrorMessage name="firstName" component="div" />
 
-                    <label htmlFor="last-name">Last Name</label>
-                    <input type="text" id="last-name" />
+                                <label>Last Name</label>
+                                <Field type="text" name="lastName" />
+                                <ErrorMessage name="lastName" component="div" />
 
-                    <label htmlFor="date-of-birth">Date of Birth</label>
-                    <input id="date-of-birth" type="text" />
+                                <label>Date of Birth</label>
+                                <Field name="dateOfBirth" type="text" />
+                                <ErrorMessage name="dateOfBirth" component="div" />
 
-                        <label htmlFor="start-date">Start Date</label>
-                        <input id="start-date" type="text" />
+                                <label>Start Date</label>
+                                <Field name="startDate" type="text" />
+                                <ErrorMessage name="startDate" component="div" />
+                            </div>
+                            <div className='address-department'>
+                                <fieldset className="address">
+                                    <legend>Address</legend>
 
-                            <fieldset className="address">
-                                <legend>Address</legend>
+                                    <label>Street</label>
+                                    <Field name="street" type="text" />
+                                    <ErrorMessage name="street" component="div" />
 
-                                <label htmlFor="street">Street</label>
-                                <input id="street" type="text" />
+                                    <label>City</label>
+                                    <Field name="city" type="text" />
+                                    <ErrorMessage name="city" component="div" />
 
-                                <label htmlFor="city">City</label>
-                                <input id="city" type="text" />
+                                    <Field as="select" name="state">
+                                        <option value="">-- Select --</option>
+                                        <option value="NY">New York</option>
+                                        <option value="CA">California</option>
+                                    </Field>
+                                    <ErrorMessage name="state" component="div" />
 
-                                <label htmlFor="state">State</label>
-                                <select name="state" id="state"></select>
+                                    <label>Zip Code</label>
+                                    <Field name="zipCode" type="number" />
+                                    <ErrorMessage name="zipCode" component="div" />
+                                </fieldset>
 
-                                <label htmlFor="zip-code">Zip Code</label>
-                                <input id="zip-code" type="number" />
-                            </fieldset>
+                                <label htmlFor="department">Department</label>
+                                <Field name="department" as="select">
+                                    <option value="">-- Select --</option>
+                                    <option value="sales">Sales</option>
+                                    <option value="marketing">Marketing</option>
+                                    <option value="engineering">Engineering</option>
+                                    <option value="human-resources">Human Resources</option>
+                                    <option value="legal">Legal</option>
+                                </Field>
+                                <ErrorMessage name="department" component="div" />
+                            </div>
+                        </div>
 
-                            <label htmlFor="department">Department</label>
-                            <select name="department" id="department">
-                                <option>Sales</option>
-                                <option>Marketing</option>
-                                <option>Engineering</option>
-                                <option>Human Resources</option>
-                                <option>Legal</option>
-                            </select>
-                        </form>
-
-                    <button onClick={saveEmployee}>Save</button>
-                </div>
-                <div id="confirmation" className="modal">Employee Created!</div>
-        </div>
+                        <button type='submit'>Save</button>
+                    </Form>
+                </Formik >
+            </div>
+            {/* <div id="confirmation" className="modal">Employee Created!</div> */}
+        </div >
     )
 }

@@ -10,7 +10,7 @@ export default function EmployeeList() {
                 <h1>HRnet</h1>
             </div>
             <div className="container">
-                <Link to=''>View Current Employees</Link>
+                <Link to='/current-employee'>View Current Employees</Link>
                 <h2>Create Employee</h2>
                 <Formik
                     initialValues={{ firstName: '', lastName: '', dateOfBirth: '', startDate: '', street: '', city: '', state: '', zipCode: '', department: '' }}

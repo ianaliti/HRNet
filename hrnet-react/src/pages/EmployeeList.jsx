@@ -2,8 +2,12 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { addEmployee } from '../redux/employeesSlice';
 
 export default function EmployeeList() {
+    const dispatch = useDispatch();
+
     return (
         <div className='main'>
             <div className="title">
@@ -25,7 +29,7 @@ export default function EmployeeList() {
                         zipCode: Yup.number().required("Required").min(10000, "Must be a 5-digit number"),
                         department: Yup.string().required("Required"),
                     })}
-                    onSubmit={(values) => console.log(values)}
+                    onSubmit={(values) => dispatch(addEmployee(values))}
                 >
                     <Form>
                         <div className='empolyee-form'>

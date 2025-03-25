@@ -1,45 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    loading: false,
-    employees: null,
-    error: null,
-    success: null,
+    employees: JSON.parse(localStorage.getItem('employees')) || [],
 };
 
-const authSlice = createSlice({
+const employeesSlice = createSlice({
     name: "employee",
     initialState,
-    reducers: { },
-    extraReducers: (builder) => {
-        builder
-            .addCase("employee/fetchEmployees/pending", (state) => {
-                state.loading = true;
-                state.error = null;
-            })
-
-            .addCase("employee/fetchEmployees/fulfilled", (state, action) => {
-                state.loading = false;
-                state.employees = action.payload;
-            })
-        
-           .addCase("employee/fetchEmployees/rejected", (state, action) => {
-                state.loading = false;
-                state.error = action.payload;
-            })
-           .addCase("employee/addEmployee/pending", (state) => {
-                state.loading = true;
-                state.error = null;
-            })
-           .addCase("employee/addEmployee/fulfilled", (state, action) => {
-                state.loading = false;
-                state.success = action.payload;
-            })
-            .addCase("employee/addEmployee/rejected", (state) => {
-                state.loading = false;
-                state.error = action.payload;
-            })
+    reducers: { 
+        addEmployee: (state, action) => {
+            state.employees.push(action.payload)
+            localStorage.setItem("employees", JSON.stringify(state.employees))
+        }
     }
 })
 
-export default authSlice.reducer;
+export const { addEmployee } = employeesSlice.actions;
+export default employeesSlice.reducer;

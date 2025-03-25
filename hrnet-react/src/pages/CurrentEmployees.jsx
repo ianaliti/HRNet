@@ -1,37 +1,38 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'; 
 
 
 export default function CurrentEmployees() {
-    const { loading, employees, error } = useSelector((state) => state.employees);
-    const dispatch = useDispatch();
+    const employees = useSelector((state) => state.employees.employees);
 
-    console.log(employees);
-    const employee = [];
-
+    console.log(employees)
   return (
     <div id="employee-div" className="container">
             <h1>Current Employees</h1>
             
             <TableContainer component={Paper}>
-                <Table>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
                             <TableCell>1</TableCell>
-                            <TableCell>2</TableCell>
-                            <TableCell>3</TableCell>
-                            <TableCell>4</TableCell>
-                            <TableCell>5</TableCell>
+                            <TableCell align='right'>First Name</TableCell>
+                            <TableCell align='right'>Last Name</TableCell>
+                            <TableCell align='right'>Date of Birth</TableCell>
+                            <TableCell align='right'>Start Date</TableCell>
+                            <TableCell align='right'>Adress</TableCell>
+                            <TableCell align='right'>Department</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {employee.map((employee) => (
-                            <TableRow key={1}>
-                                <TableCell>1</TableCell>
-                                <TableCell>2</TableCell>
-                                <TableCell>3</TableCell>
-                                <TableCell>4</TableCell>
+                        {employees.map((employee) => (
+                            <TableRow key={employee.id}>
+                                <TableCell>{employee.firstName}</TableCell>
+                                <TableCell align='right'>{employee.lastName}</TableCell>
+                                <TableCell align='right'>{employee.dateOfBirth}</TableCell>
+                                <TableCell align='right'>{employee.startDate}</TableCell>
+                                {/* <TableCell align='right'>{employee.adress}</TableCell> */}
+                                <TableCell align='right'>{employee.department}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

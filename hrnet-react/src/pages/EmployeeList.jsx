@@ -8,6 +8,30 @@ import { addEmployee } from '../redux/employeesSlice';
 export default function EmployeeList() {
     const dispatch = useDispatch();
 
+    const validationSchema = Yup.object({
+        firstName: Yup.string()
+            .matches(/^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/, "Invalid first name")
+            .required("Required"),
+        lastName: Yup.string()
+            .matches(/^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/, "Invalid last name")
+            .required("Required"),
+        dateOfBirth: Yup.string()
+            .matches(/^\d{4}-\d{2}-\d{2}$/, "Use YYYY-MM-DD format")
+            .required("Required"),
+        startDate: Yup.string()
+            .matches(/^\d{4}-\d{2}-\d{2}$/, "Use YYYY-MM-DD format")
+            .required("Required"),
+        street: Yup.string().required("Required"),
+        city: Yup.string()
+            .matches(/^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/, "Invalid city name")
+            .required("Required"),
+        state: Yup.string().required("Required"),
+        zipCode: Yup.string()
+            .matches(/^\d{5}$/, "Must be a 5-digit number")
+            .required("Required"),
+        department: Yup.string().required("Required"),
+    });
+
     return (
         <div className='main'>
             <div className="title">
@@ -18,77 +42,75 @@ export default function EmployeeList() {
                 <h2>Create Employee</h2>
                 <Formik
                     initialValues={{ firstName: '', lastName: '', dateOfBirth: '', startDate: '', street: '', city: '', state: '', zipCode: '', department: '' }}
-                    validationShema={Yup.object({
-                        firstName: Yup.string().required("Required"),
-                        lastName: Yup.string().required("Required"),
-                        dateOfBirth: Yup.string().required("Required"),
-                        startDate: Yup.string().required("Required"),
-                        street: Yup.string().required("Required"),
-                        city: Yup.string().required("Required"),
-                        state: Yup.string().required("Required"),
-                        zipCode: Yup.number().required("Required").min(10000, "Must be a 5-digit number"),
-                        department: Yup.string().required("Required"),
-                    })}
+                    validationSchema={validationSchema}
+                    validateOnBlur={true}
+                    validateOnChange={true}
                     onSubmit={(values) => dispatch(addEmployee(values))}
+                // alert("confirmation")
                 >
+                    {({ errors, touched }) => (
                     <Form>
                         <div className='empolyee-form'>
                             <div className='personal-info'>
                                 <label>First Name</label>
                                 <Field type="text" name="firstName" />
-                                <ErrorMessage name="firstName" component="div" />
+                                {errors.firstName && touched.firstName && <div className="error">{errors.firstName}</div>}
 
                                 <label>Last Name</label>
                                 <Field type="text" name="lastName" />
-                                <ErrorMessage name="lastName" component="div" />
+                                {errors.lastName && touched.lastName && <div className="error">{errors.lastName}</div>}
 
                                 <label>Date of Birth</label>
                                 <Field name="dateOfBirth" type="text" />
-                                <ErrorMessage name="dateOfBirth" component="div" />
+                                {errors.dateOfBirth && touched.dateOfBirth && <div className="error">{errors.dateOfBirth}</div>}
+
 
                                 <label>Start Date</label>
                                 <Field name="startDate" type="text" />
-                                <ErrorMessage name="startDate" component="div" />
-                            </div>
+                                {errors.startDate && touched.startDate && <div className="error">{errors.startDate}</div>}
                             <div className='address-department'>
                                 <fieldset className="address">
                                     <legend>Address</legend>
 
                                     <label>Street</label>
                                     <Field name="street" type="text" />
-                                    <ErrorMessage name="street" component="div" />
+                                    {errors.street && touched.street && <div className="error">{errors.street}</div>}
 
                                     <label>City</label>
                                     <Field name="city" type="text" />
-                                    <ErrorMessage name="city" component="div" />
+                                    {errors.city && touched.city && <div className="error">{errors.city}</div>}
 
                                     <Field as="select" name="state">
                                         <option value="">-- Select --</option>
                                         <option value="NY">New York</option>
                                         <option value="CA">California</option>
                                     </Field>
-                                    <ErrorMessage name="state" component="div" />
+                                    {errors.state && touched.state && <div className="error">{errors.state}</div>}
 
                                     <label>Zip Code</label>
                                     <Field name="zipCode" type="number" />
-                                    <ErrorMessage name="zipCode" component="div" />
+                                    {errors.zipCode && touched.zipCode && <div className="error">{errors.zipCode}</div>}
                                 </fieldset>
 
                                 <label htmlFor="department">Department</label>
                                 <Field name="department" as="select">
-                                    <option value="">-- Select --</option>
+                                    {/* <option value="">-- Select --</option>
                                     <option value="sales">Sales</option>
                                     <option value="marketing">Marketing</option>
                                     <option value="engineering">Engineering</option>
                                     <option value="human-resources">Human Resources</option>
-                                    <option value="legal">Legal</option>
+                                    <option value="legal">Legal</option> */}
+
+                                    {/* add the map */}
                                 </Field>
-                                <ErrorMessage name="department" component="div" />
+                                {errors.department && touched.department && <div className="error">{errors.department}</div>}
                             </div>
                         </div>
 
                         <button type='submit'>Save</button>
+                        </div>
                     </Form>
+                )}
                 </Formik >
             </div>
             {/* <div id="confirmation" className="modal">Employee Created!</div> */}

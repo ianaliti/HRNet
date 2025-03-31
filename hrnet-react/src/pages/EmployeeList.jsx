@@ -4,6 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { addEmployee } from '../redux/employeesSlice';
+import states from '../data/data.js';
 
 export default function EmployeeList() {
     const dispatch = useDispatch();
@@ -82,8 +83,9 @@ export default function EmployeeList() {
 
                                     <Field as="select" name="state">
                                         <option value="">-- Select --</option>
-                                        <option value="NY">New York</option>
-                                        <option value="CA">California</option>
+                                        {states.map((state) => (
+                                            <option key={state.abbreviation} value={state.abbreviation}>{state.name}</option>
+                                        ))}
                                     </Field>
                                     {errors.state && touched.state && <div className="error">{errors.state}</div>}
 
@@ -94,14 +96,12 @@ export default function EmployeeList() {
 
                                 <label htmlFor="department">Department</label>
                                 <Field name="department" as="select">
-                                    {/* <option value="">-- Select --</option>
+                                    <option value="">-- Select --</option>
                                     <option value="sales">Sales</option>
                                     <option value="marketing">Marketing</option>
                                     <option value="engineering">Engineering</option>
                                     <option value="human-resources">Human Resources</option>
-                                    <option value="legal">Legal</option> */}
-
-                                    {/* add the map */}
+                                    <option value="legal">Legal</option> 
                                 </Field>
                                 {errors.department && touched.department && <div className="error">{errors.department}</div>}
                             </div>

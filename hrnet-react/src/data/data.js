@@ -236,3 +236,5 @@ const states = [
         "abbreviation": "WY"
     }
 ];
+
+export default states;

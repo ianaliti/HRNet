@@ -5,6 +5,11 @@ import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { addEmployee } from '../redux/employeesSlice';
 import states from '../data/data.js';
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
+
 
 export default function EmployeeList() {
     const dispatch = useDispatch();
@@ -49,71 +54,85 @@ export default function EmployeeList() {
                     onSubmit={(values) => dispatch(addEmployee(values))}
                 // alert("confirmation")
                 >
-                    {({ errors, touched }) => (
-                    <Form>
-                        <div className='empolyee-form'>
-                            <div className='personal-info'>
-                                <label>First Name</label>
-                                <Field type="text" name="firstName" />
-                                {errors.firstName && touched.firstName && <div className="error">{errors.firstName}</div>}
+                    {({ values, setFieldValue, errors, touched }) => (
+                        <Form>
+                            <div className='empolyee-form'>
+                                <div className='personal-info'>
+                                    <label>First Name</label>
+                                    <Field type="text" name="firstName" />
+                                    {errors.firstName && touched.firstName && <div className="error">{errors.firstName}</div>}
 
-                                <label>Last Name</label>
-                                <Field type="text" name="lastName" />
-                                {errors.lastName && touched.lastName && <div className="error">{errors.lastName}</div>}
+                                    <label>Last Name</label>
+                                    <Field type="text" name="lastName" />
+                                    {errors.lastName && touched.lastName && <div className="error">{errors.lastName}</div>}
 
-                                <label>Date of Birth</label>
-                                <Field name="dateOfBirth" type="text" />
-                                {errors.dateOfBirth && touched.dateOfBirth && <div className="error">{errors.dateOfBirth}</div>}
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <label>Date of Birth</label>
+                                    <DatePicker
+                                        value={values.dateOfBirth ? dayjs(values.dateOfBirth) : null}
+                                        onChange={(value) => setFieldValue("dateOfBirth", value ? dayjs(value).format("YYYY-MM-DD") : "")}
+                                        format="DD/MM/YYYY"
+                                    />
+                                    {errors.dateOfBirth && touched.dateOfBirth && (
+                                        <div className="error">{errors.dateOfBirth}</div>
+                                    )}
 
+                                    <label>Start Date</label>
+                                    <DatePicker
+                                        value={values.startDate ? dayjs(values.startDate) : null}
+                                        onChange={(value) => setFieldValue("startDate", value ? dayjs(value).format("YYYY-MM-DD") : "")}
+                                        format="DD/MM/YYYY"
+                                    />
+                                    {errors.startDate && touched.startDate && (
+                                        <div className="error">{errors.startDate}</div>
+                                    )}
+                                </LocalizationProvider>
 
-                                <label>Start Date</label>
-                                <Field name="startDate" type="text" />
-                                {errors.startDate && touched.startDate && <div className="error">{errors.startDate}</div>}
-                            <div className='address-department'>
-                                <fieldset className="address">
-                                    <legend>Address</legend>
+                                <div className='address-department'>
+                                    <fieldset className="address">
+                                        <legend>Address</legend>
 
-                                    <label>Street</label>
-                                    <Field name="street" type="text" />
-                                    {errors.street && touched.street && <div className="error">{errors.street}</div>}
+                                        <label>Street</label>
+                                        <Field name="street" type="text" />
+                                        {errors.street && touched.street && <div className="error">{errors.street}</div>}
 
-                                    <label>City</label>
-                                    <Field name="city" type="text" />
-                                    {errors.city && touched.city && <div className="error">{errors.city}</div>}
+                                        <label>City</label>
+                                        <Field name="city" type="text" />
+                                        {errors.city && touched.city && <div className="error">{errors.city}</div>}
 
-                                    <Field as="select" name="state">
+                                        <Field as="select" name="state">
+                                            <option value="">-- Select --</option>
+                                            {states.map((state) => (
+                                                <option key={state.abbreviation} value={state.abbreviation}>{state.name}</option>
+                                            ))}
+                                        </Field>
+                                        {errors.state && touched.state && <div className="error">{errors.state}</div>}
+
+                                        <label>Zip Code</label>
+                                        <Field name="zipCode" type="text" />
+                                        {errors.zipCode && touched.zipCode && <div className="error">{errors.zipCode}</div>}
+                                    </fieldset>
+
+                                    <label htmlFor="department">Department</label>
+                                    <Field name="department" as="select">
                                         <option value="">-- Select --</option>
-                                        {states.map((state) => (
-                                            <option key={state.abbreviation} value={state.abbreviation}>{state.name}</option>
-                                        ))}
+                                        <option value="sales">Sales</option>
+                                        <option value="marketing">Marketing</option>
+                                        <option value="engineering">Engineering</option>
+                                        <option value="human-resources">Human Resources</option>
+                                        <option value="legal">Legal</option>
                                     </Field>
-                                    {errors.state && touched.state && <div className="error">{errors.state}</div>}
-
-                                    <label>Zip Code</label>
-                                    <Field name="zipCode" type="number" />
-                                    {errors.zipCode && touched.zipCode && <div className="error">{errors.zipCode}</div>}
-                                </fieldset>
-
-                                <label htmlFor="department">Department</label>
-                                <Field name="department" as="select">
-                                    <option value="">-- Select --</option>
-                                    <option value="sales">Sales</option>
-                                    <option value="marketing">Marketing</option>
-                                    <option value="engineering">Engineering</option>
-                                    <option value="human-resources">Human Resources</option>
-                                    <option value="legal">Legal</option> 
-                                </Field>
-                                {errors.department && touched.department && <div className="error">{errors.department}</div>}
+                                    {errors.department && touched.department && <div className="error">{errors.department}</div>}
+                                </div>
                             </div>
-                        </div>
 
-                        <button type='submit'>Save</button>
+                            <button type='submit'>Save</button>
                         </div>
-                    </Form>
-                )}
-                </Formik >
-            </div>
-            {/* <div id="confirmation" className="modal">Employee Created!</div> */}
+                        </Form>
+                    )}
+            </Formik >
+        </div>
+            {/* <div id="confirmation" className="modal">Employee Created!</div> */ }
         </div >
     )
 }

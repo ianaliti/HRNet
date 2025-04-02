@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -13,6 +13,7 @@ import dayjs from "dayjs";
 
 export default function EmployeeList() {
     const dispatch = useDispatch();
+    const [modalOpen, setModalOpen] = useState(false);
 
     const validationSchema = Yup.object({
         firstName: Yup.string()
@@ -38,6 +39,12 @@ export default function EmployeeList() {
         department: Yup.string().required("Required"),
     });
 
+    const handleSubmit = (values, { resetForm }) => {
+        dispatch(addEmployee(values));
+        setModalOpen(true);
+        resetForm();
+    };
+
     return (
         <div className='main'>
             <div className="title">
@@ -51,8 +58,8 @@ export default function EmployeeList() {
                     validationSchema={validationSchema}
                     validateOnBlur={true}
                     validateOnChange={true}
-                    onSubmit={(values) => dispatch(addEmployee(values))}
-                // alert("confirmation")
+                    onSubmit={handleSubmit}
+
                 >
                     {({ values, setFieldValue, errors, touched }) => (
                         <Form>
@@ -132,7 +139,14 @@ export default function EmployeeList() {
                     )}
             </Formik >
         </div>
-            {/* <div id="confirmation" className="modal">Employee Created!</div> */ }
+        {modalOpen && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <p>Employee Created!</p>
+                        <button onClick={() => setModalOpen(false)}>OK</button>
+                    </div>
+                </div>
+            )}
         </div >
     )
 }

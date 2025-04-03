@@ -17,31 +17,31 @@ export default function EmployeeList() {
 
     const validationSchema = Yup.object({
         firstName: Yup.string()
-            .matches(/^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/, "Invalid first name")
-            .required("Required"),
+            .matches(/^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/, "Invalid name")
+            .required("First Name is required"),
         lastName: Yup.string()
-            .matches(/^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/, "Invalid last name")
-            .required("Required"),
+            .matches(/^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/, "Invalid name")
+            .required("Last Name is required"),
         dateOfBirth: Yup.string()
-            .matches(/^\d{4}-\d{2}-\d{2}$/, "Use YYYY-MM-DD format")
-            .required("Required")
+            .matches(/^\d{4}-\d{2}-\d{2}$/, "Use DD-MM-YYYY format")
+            .required("Date of Birth is required")
             .test(
                 "is-past",
                 "Date of Birth cannot be today or in the future",
                 (value) => value && dayjs(value).isBefore(dayjs(), "day")
             ),
         startDate: Yup.string()
-            .matches(/^\d{4}-\d{2}-\d{2}$/, "Use YYYY-MM-DD format")
-            .required("Required"),
-        street: Yup.string().required("Required"),
+            .matches(/^\d{4}-\d{2}-\d{2}$/, "Use DD-MM-YYYY format")
+            .required("Start Date is required"),
+        street: Yup.string().required("Street address is required"),
         city: Yup.string()
-            .matches(/^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/, "Invalid city name")
+            .matches(/^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/, "City is required")
             .required("Required"),
-        state: Yup.string().required("Required"),
+        state: Yup.string().required("Please select a state"),
         zipCode: Yup.string()
-            .matches(/^\d{5}$/, "Must be a 5-digit number")
-            .required("Required"),
-        department: Yup.string().required("Required"),
+            .matches(/^\d{5}$/, "Zip Code must be a 5-digit number")
+            .required("Zip Code is required"),
+        department: Yup.string().required("Please select a department"),
     });
 
     const handleSubmit = (values, { resetForm }) => {

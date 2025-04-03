@@ -24,7 +24,12 @@ export default function EmployeeList() {
             .required("Required"),
         dateOfBirth: Yup.string()
             .matches(/^\d{4}-\d{2}-\d{2}$/, "Use YYYY-MM-DD format")
-            .required("Required"),
+            .required("Required")
+            .test(
+                "is-past",
+                "Date of Birth cannot be today or in the future",
+                (value) => value && dayjs(value).isBefore(dayjs(), "day")
+            ),
         startDate: Yup.string()
             .matches(/^\d{4}-\d{2}-\d{2}$/, "Use YYYY-MM-DD format")
             .required("Required"),
@@ -64,49 +69,65 @@ export default function EmployeeList() {
                     {({ values, setFieldValue, errors, touched }) => (
                         <Form>
                             <div className='empolyee-form'>
-                                <div className='personal-info'>
-                                    <label>First Name</label>
+
+                                <label>First Name</label>
+                                <div className="input-container">
                                     <Field type="text" name="firstName" />
                                     {errors.firstName && touched.firstName && <div className="error">{errors.firstName}</div>}
+                                </div>
 
-                                    <label>Last Name</label>
+                                <label>Last Name</label>
+                                <div className="input-container">
                                     <Field type="text" name="lastName" />
                                     {errors.lastName && touched.lastName && <div className="error">{errors.lastName}</div>}
+                                </div>
 
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <label>Date of Birth</label>
-                                    <DatePicker
-                                        value={values.dateOfBirth ? dayjs(values.dateOfBirth) : null}
-                                        onChange={(value) => setFieldValue("dateOfBirth", value ? dayjs(value).format("YYYY-MM-DD") : "")}
-                                        format="DD/MM/YYYY"
-                                    />
-                                    {errors.dateOfBirth && touched.dateOfBirth && (
-                                        <div className="error">{errors.dateOfBirth}</div>
-                                    )}
+                                    <div className="input-container">
+                                        <DatePicker
+                                            value={values.dateOfBirth ? dayjs(values.dateOfBirth) : null}
+                                            onChange={(value) => setFieldValue("dateOfBirth", value ? dayjs(value).format("YYYY-MM-DD") : "")}
+                                            format="DD/MM/YYYY"
+                                        />
+                                        {errors.dateOfBirth && touched.dateOfBirth && (
+                                            <div className="error">{errors.dateOfBirth}</div>
+                                        )}
+                                    </div>
+
 
                                     <label>Start Date</label>
-                                    <DatePicker
-                                        value={values.startDate ? dayjs(values.startDate) : null}
-                                        onChange={(value) => setFieldValue("startDate", value ? dayjs(value).format("YYYY-MM-DD") : "")}
-                                        format="DD/MM/YYYY"
-                                    />
-                                    {errors.startDate && touched.startDate && (
-                                        <div className="error">{errors.startDate}</div>
-                                    )}
+                                    <div className="input-container">
+                                        <DatePicker
+                                            value={values.startDate ? dayjs(values.startDate) : null}
+                                            onChange={(value) => setFieldValue("startDate", value ? dayjs(value).format("YYYY-MM-DD") : "")}
+                                            format="DD/MM/YYYY"
+                                        />
+                                        {errors.startDate && touched.startDate && (
+                                            <div className="error">{errors.startDate}</div>
+                                        )}
+                                    </div>
+
                                 </LocalizationProvider>
 
-                                <div className='address-department'>
-                                    <fieldset className="address">
-                                        <legend>Address</legend>
 
-                                        <label>Street</label>
+                                <fieldset className="address">
+                                    <legend>Address</legend>
+
+                                    <label>Street</label>
+                                    <div className="input-container">
                                         <Field name="street" type="text" />
                                         {errors.street && touched.street && <div className="error">{errors.street}</div>}
+                                    </div>
 
-                                        <label>City</label>
+
+                                    <label>City</label>
+                                    <div className="input-container">
                                         <Field name="city" type="text" />
                                         {errors.city && touched.city && <div className="error">{errors.city}</div>}
+                                    </div>
 
+                                    <div className="input-container">
                                         <Field as="select" name="state">
                                             <option value="">-- Select --</option>
                                             {states.map((state) => (
@@ -114,13 +135,17 @@ export default function EmployeeList() {
                                             ))}
                                         </Field>
                                         {errors.state && touched.state && <div className="error">{errors.state}</div>}
+                                    </div>
 
-                                        <label>Zip Code</label>
+                                    <label>Zip Code</label>
+                                    <div className="input-container">
                                         <Field name="zipCode" type="text" />
                                         {errors.zipCode && touched.zipCode && <div className="error">{errors.zipCode}</div>}
-                                    </fieldset>
+                                    </div>
+                                </fieldset>
 
-                                    <label htmlFor="department">Department</label>
+                                <label htmlFor="department">Department</label>
+                                <div className="input-container">
                                     <Field name="department" as="select">
                                         <option value="">-- Select --</option>
                                         <option value="sales">Sales</option>
@@ -131,15 +156,15 @@ export default function EmployeeList() {
                                     </Field>
                                     {errors.department && touched.department && <div className="error">{errors.department}</div>}
                                 </div>
-                            </div>
 
-                            <button type='submit'>Save</button>
-                        </div>
+
+                                <button type='submit'>Save</button>
+                            </div>
                         </Form>
                     )}
-            </Formik >
-        </div>
-        {modalOpen && (
+                </Formik >
+            </div>
+            {modalOpen && (
                 <div className="modal-overlay">
                     <div className="modal">
                         <p>Employee Created!</p>

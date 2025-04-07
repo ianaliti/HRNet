@@ -27,7 +27,6 @@ html, body {
   background: #fff;
   padding: 20px;
   width: 100%;
-  max-width: 600px; 
   box-sizing: border-box;
   display: flex;
   flex-direction: column;

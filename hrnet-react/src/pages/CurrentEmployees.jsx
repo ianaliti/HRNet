@@ -1,13 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'; 
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TableSortLabel } from '@mui/material'; 
 import { Link } from 'react-router-dom';
 
 
 export default function CurrentEmployees() {
     const employees = useSelector((state) => state.employees.employees);
 
-    console.log(employees)
+    const [orderDirection, setOrderDirection] = useState('asc');
+    const [orderBy, setOrderBy] = useState('firstName');
+
+    const handleRequestSort = (property) => {
+        const isAscending = orderBy === property && orderDirection === 'asc';
+        setOrderDirection(isAscending ? 'desc' : 'asc');
+        setOrderBy(property);
+    };
+
+    const sortedEmployees = [...employees].sort((a, b) => {
+        if (a[orderBy] < b[orderBy]) return orderDirection === 'asc' ? -1 : 1;
+        if (a[orderBy] > b[orderBy]) return orderDirection === 'asc' ? 1 : -1;
+        return 0;
+    });
+
   return (
     <div id="employee-div" className="container">
             <h1>Current Employees</h1>
@@ -16,18 +30,22 @@ export default function CurrentEmployees() {
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell align='right'>First Name</TableCell>
-                            <TableCell align='right'>Last Name</TableCell>
-                            <TableCell align='right'>Date of Birth</TableCell>
-                            <TableCell align='right'>Start Date</TableCell>
-                            <TableCell align='right'>Street</TableCell>
-                            <TableCell align='right'>City</TableCell>
-                            <TableCell align='right'>State</TableCell>
-                            <TableCell align='right'>Zip Code</TableCell>
+                             {['firstName', 'lastName', 'dateOfBirth', 'startDate', 'street', 'city', 'state', 'zipCode']
+                            .map((col) => (
+                                <TableCell key={col} align="right">
+                                    <TableSortLabel
+                                        active={orderBy === col}
+                                        direction={orderBy === col ? orderDirection : 'asc'}
+                                        onClick={() => handleRequestSort(col)}
+                                    >
+                                        {col.charAt(0).toUpperCase() + col.slice(1)}
+                                    </TableSortLabel>
+                                </TableCell>
+                            ))}
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {employees.map((employee) => (
+                        {sortedEmployees.map((employee) => (
                             <TableRow key={employee.id}>
                                 <TableCell>{employee.firstName}</TableCell>
                                 <TableCell align='right'>{employee.lastName}</TableCell>

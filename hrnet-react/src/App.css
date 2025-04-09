@@ -100,3 +100,57 @@ form {
   margin-top: 10px;
   padding: 5px 10px;
 }
+
+
+h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.controls-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.show-entries {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.search-input {
+  min-width: 200px;
+}
+
+.table-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  width: 100%;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pagination-input {
+  width: 50px;
+  text-align: center;
+  padding: 4px;
+}
+
+.home-link {
+  display: block;
+  text-align: center;
+  margin-top: 1rem;
+  color: purple;
+  text-decoration: underline;
+}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TableSortLabel } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TableSortLabel, TablePagination } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { TextField } from '@mui/material';
 
@@ -11,11 +11,29 @@ export default function CurrentEmployees() {
     const [orderDirection, setOrderDirection] = useState('asc');
     const [orderBy, setOrderBy] = useState('firstName');
     const [searchQuery, setSearchQuery] = useState('');
+    const [page, setPage] = useState(1);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const handleRequestSort = (property) => {
         const isAscending = orderBy === property && orderDirection === 'asc';
         setOrderDirection(isAscending ? 'desc' : 'asc');
         setOrderBy(property);
+    };
+
+    const handleSearchChange = (event) => {
+        setSearchQuery(event.target.value.toLowerCase());
+        setPage(1);
+    };
+
+    const handleChangePage = (newPage) => {
+        if (newPage > 0 && newPage <= totalPages) {
+            setPage(newPage);
+        }
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value));
+        setPage(1);
     };
 
     const sortedEmployees = [...employees].sort((a, b) => {
@@ -24,30 +42,44 @@ export default function CurrentEmployees() {
         return 0;
     });
 
-    const handleSearchChange = (event) => {
-        setSearchQuery(event.target.value.toLowerCase());
-    };
-
     const filteredEmployees = sortedEmployees.filter(employee =>
         Object.values(employee).some(value =>
             String(value).toLowerCase().includes(searchQuery)
         )
     );
 
+    const indexOfLastRow = page * rowsPerPage;
+    const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+    const currentRows = filteredEmployees.slice(indexOfFirstRow, indexOfLastRow);
+    const totalPages = Math.ceil(filteredEmployees.length / rowsPerPage);
+
     return (
         <div id="employee-div" className="container">
             <h1>Current Employees</h1>
 
-            <TextField
-                label="Search"
-                variant="standard"
-                value={searchQuery}
-                onChange={handleSearchChange}
-                sx={{ mb: 2 }}
-            />
+            <div className="controls-top">
+                <div className="show-entries">
+                    <label>Show </label>
+                    <select value={rowsPerPage} onChange={handleChangeRowsPerPage}>
+                        <option value={10}>10</option>
+                        <option value={25}>25</option>
+                        <option value={50}>50</option>
+                        <option value={100}>100</option>
+                    </select>
+                    <label> entries</label>
+                </div>
+
+                <TextField
+                    label="Search"
+                    variant="standard"
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                    className="search-input"
+                />
+            </div>
 
             <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="table">
+                <Table aria-label="table">
                     <TableHead>
                         <TableRow>
                             {['firstName', 'lastName', 'dateOfBirth', 'startDate', 'street', 'city', 'state', 'zipCode']
@@ -65,14 +97,14 @@ export default function CurrentEmployees() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {filteredEmployees.length === 0 ? (
+                        {currentRows.length === 0 ? (
                             <TableRow>
-                                <TableCell colSpan={8} align="center">
+                                <TableCell colSpan={9} align="center">
                                     No matching records found
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            filteredEmployees.map((employee) => (
+                            currentRows.map((employee) => (
                                 <TableRow key={employee.id}>
                                     <TableCell>{employee.firstName}</TableCell>
                                     <TableCell align='right'>{employee.lastName}</TableCell>
@@ -88,7 +120,31 @@ export default function CurrentEmployees() {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Link to="/">Home</Link>
+            <div className="table-footer">
+                <div>
+                    Showing {filteredEmployees.length === 0 ? 0 : indexOfFirstRow + 1} to{' '}
+                    {Math.min(indexOfLastRow, filteredEmployees.length)} of {filteredEmployees.length} entries
+                </div>
+                <div className="pagination-controls">
+                    <button onClick={() => handleChangePage(page - 1)} disabled={page === 1}>
+                        Previous
+                    </button>
+                    <input
+                        type="number"
+                        value={page}
+                        onChange={(e) => handleChangePage(Number(e.target.value))}
+                        min={1}
+                        max={totalPages}
+                        className="pagination-input"
+                    />
+                    <span>of {totalPages}</span>
+                    <button onClick={() => handleChangePage(page + 1)} disabled={page === totalPages}>
+                        Next
+                    </button>
+                </div>
+            </div>
+
+            <Link to="/" className="home-link">Home</Link>
         </div>
     )
 }

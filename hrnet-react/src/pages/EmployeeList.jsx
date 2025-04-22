@@ -9,6 +9,8 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
+// import { Modal } from 'modal-component-iana';
+import { Modal } from 'modal-component-iana';
 
 
 export default function EmployeeList() {
@@ -165,12 +167,7 @@ export default function EmployeeList() {
                 </Formik >
             </div>
             {modalOpen && (
-                <div className="modal-overlay">
-                    <div className="modal">
-                        <p>Employee Created!</p>
-                        <button onClick={() => setModalOpen(false)}>OK</button>
-                    </div>
-                </div>
+                <Modal setModalOpen={setModalOpen}/>
             )}
         </div >
     )

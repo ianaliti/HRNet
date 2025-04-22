@@ -4,13 +4,11 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { addEmployee } from '../redux/employeesSlice';
-import states from '../data/data.js';
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
-// import { Modal } from 'modal-component-iana';
 import { Modal } from 'modal-component-iana';
+import { DatePickerForm } from '../components/DataPickerForm.jsx';
+import { AddressForm } from '../components/AddressForm.jsx';
+import { DepartmentSelect } from '../components/DepartmentSelect.jsx';
 
 
 export default function EmployeeList() {
@@ -84,80 +82,11 @@ export default function EmployeeList() {
                                     {errors.lastName && touched.lastName && <div className="error">{errors.lastName}</div>}
                                 </div>
 
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <label>Date of Birth</label>
-                                    <div className="input-container">
-                                        <DatePicker
-                                            value={values.dateOfBirth ? dayjs(values.dateOfBirth) : null}
-                                            onChange={(value) => setFieldValue("dateOfBirth", value ? dayjs(value).format("YYYY-MM-DD") : "")}
-                                            format="DD/MM/YYYY"
-                                        />
-                                        {errors.dateOfBirth && touched.dateOfBirth && (
-                                            <div className="error">{errors.dateOfBirth}</div>
-                                        )}
-                                    </div>
+                                <DatePickerForm values={values} setFieldValue={setFieldValue} errors={errors} touched={touched} />
 
+                                <AddressForm values={values} setFieldValue={setFieldValue} errors={errors} touched={touched} />
 
-                                    <label>Start Date</label>
-                                    <div className="input-container">
-                                        <DatePicker
-                                            value={values.startDate ? dayjs(values.startDate) : null}
-                                            onChange={(value) => setFieldValue("startDate", value ? dayjs(value).format("YYYY-MM-DD") : "")}
-                                            format="DD/MM/YYYY"
-                                        />
-                                        {errors.startDate && touched.startDate && (
-                                            <div className="error">{errors.startDate}</div>
-                                        )}
-                                    </div>
-
-                                </LocalizationProvider>
-
-
-                                <fieldset className="address">
-                                    <legend>Address</legend>
-
-                                    <label>Street</label>
-                                    <div className="input-container">
-                                        <Field name="street" type="text" />
-                                        {errors.street && touched.street && <div className="error">{errors.street}</div>}
-                                    </div>
-
-
-                                    <label>City</label>
-                                    <div className="input-container">
-                                        <Field name="city" type="text" />
-                                        {errors.city && touched.city && <div className="error">{errors.city}</div>}
-                                    </div>
-
-                                    <div className="input-container">
-                                        <Field as="select" name="state">
-                                            <option value="">-- Select --</option>
-                                            {states.map((state) => (
-                                                <option key={state.abbreviation} value={state.abbreviation}>{state.name}</option>
-                                            ))}
-                                        </Field>
-                                        {errors.state && touched.state && <div className="error">{errors.state}</div>}
-                                    </div>
-
-                                    <label>Zip Code</label>
-                                    <div className="input-container">
-                                        <Field name="zipCode" type="text" />
-                                        {errors.zipCode && touched.zipCode && <div className="error">{errors.zipCode}</div>}
-                                    </div>
-                                </fieldset>
-
-                                <label htmlFor="department">Department</label>
-                                <div className="input-container">
-                                    <Field name="department" as="select">
-                                        <option value="">-- Select --</option>
-                                        <option value="sales">Sales</option>
-                                        <option value="marketing">Marketing</option>
-                                        <option value="engineering">Engineering</option>
-                                        <option value="human-resources">Human Resources</option>
-                                        <option value="legal">Legal</option>
-                                    </Field>
-                                    {errors.department && touched.department && <div className="error">{errors.department}</div>}
-                                </div>
+                                <DepartmentSelect values={values} errors={errors} touched={touched} />
 
 
                                 <button type='submit'>Save</button>

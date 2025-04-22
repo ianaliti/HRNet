@@ -11,7 +11,7 @@ export default function CurrentEmployees() {
     const [orderDirection, setOrderDirection] = useState('asc');
     const [orderBy, setOrderBy] = useState('firstName');
     const [searchQuery, setSearchQuery] = useState('');
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const handleRequestSort = (property) => {
@@ -131,8 +131,8 @@ export default function CurrentEmployees() {
                     </button>
                     <input
                         type="number"
-                        value={page + 1}
-                        onChange={(e) => handleChangePage(Number(e.target.value) - 1)}
+                        value={page}
+                        onChange={(e) => handleChangePage(Number(e.target.value))}
                         min={1}
                         max={totalPages}
                         className="pagination-input"

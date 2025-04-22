@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addEmployee } from '../redux/employeesSlice';
 import dayjs from "dayjs";
 import { Modal } from 'modal-component-iana';
@@ -22,17 +22,17 @@ export default function EmployeeList() {
         lastName: Yup.string()
             .matches(/^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/, "Invalid name")
             .required("Last Name is required"),
-        dateOfBirth: Yup.string()
-            .matches(/^\d{4}-\d{2}-\d{2}$/, "Use DD-MM-YYYY format")
+        dateOfBirth: Yup.mixed()
             .required("Date of Birth is required")
+            .test("is-valid", "Invalid date", (value) => dayjs(value).isValid())
             .test(
                 "is-past",
                 "Date of Birth cannot be today or in the future",
-                (value) => value && dayjs(value).isBefore(dayjs(), "day")
-            ),
-        startDate: Yup.string()
-            .matches(/^\d{4}-\d{2}-\d{2}$/, "Use DD-MM-YYYY format")
-            .required("Start Date is required"),
+                (value) => dayjs(value).isBefore(dayjs(), "day")
+              ),
+        startDate: Yup.mixed()
+            .required("Start Date is required")
+            .test("is-valid", "Invalid date", (value) => dayjs(value).isValid()),
         street: Yup.string().required("Street address is required"),
         city: Yup.string()
             .matches(/^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/, "City is required")
@@ -59,7 +59,7 @@ export default function EmployeeList() {
                 <Link to='/current-employee'>View Current Employees</Link>
                 <h2>Create Employee</h2>
                 <Formik
-                    initialValues={{ firstName: '', lastName: '', dateOfBirth: '', startDate: '', street: '', city: '', state: '', zipCode: '', department: '' }}
+                    initialValues={{ firstName: '', lastName: '', dateOfBirth: null, startDate: null, street: '', city: '', state: '', zipCode: '', department: '' }}
                     validationSchema={validationSchema}
                     validateOnBlur={true}
                     validateOnChange={true}

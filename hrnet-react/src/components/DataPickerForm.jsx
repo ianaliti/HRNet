@@ -9,8 +9,8 @@ export const DatePickerForm = ({ values, setFieldValue, errors, touched }) => (
         <label>Date of Birth</label>
         <div className="input-container">
             <DatePicker
-                value={values.dateOfBirth ? dayjs(values.dateOfBirth) : null}
-                onChange={(value) => setFieldValue("dateOfBirth", value ? dayjs(value).format("DD/MM/YYYY") : "")}
+                value={values.dateOfBirth}
+                onChange={(value) => setFieldValue("dateOfBirth", value)}
                 format="DD/MM/YYYY"
             />
             {errors.dateOfBirth && touched.dateOfBirth && (
@@ -21,8 +21,8 @@ export const DatePickerForm = ({ values, setFieldValue, errors, touched }) => (
         <label>Start Date</label>
         <div className="input-container">
             <DatePicker
-                value={values.startDate ? dayjs(values.startDate) : null}
-                onChange={(value) => setFieldValue("startDate", value ? dayjs(value).format("DD/MM/YYYY") : "")}
+                value={values.startDate}
+                onChange={(value) => setFieldValue("startDate", value)}
                 format="DD/MM/YYYY"
             />
             {errors.startDate && touched.startDate && (

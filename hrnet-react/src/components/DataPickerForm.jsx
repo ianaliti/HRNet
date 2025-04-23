@@ -19,7 +19,16 @@ export const DatePickerForm = ({ values, setFieldValue, errors, touched }) => (
             sx: {
               "& .MuiOutlinedInput-root": {
                 borderRadius: 0, 
-              }
+              },
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderRadius: 0,
+              },
+              "& .MuiInputBase-root": {
+                borderRadius: 0, 
+              },
+              "& .MuiSvgIcon-root": {
+                borderRadius: 0, 
+              },
             },
           },
         }}
@@ -42,7 +51,16 @@ export const DatePickerForm = ({ values, setFieldValue, errors, touched }) => (
               sx: {
                 "& .MuiOutlinedInput-root": {
                   borderRadius: 0, 
-                }
+                },
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderRadius: 0, 
+                },
+                "& .MuiInputBase-root": {
+                  borderRadius: 0, 
+                },
+                "& .MuiSvgIcon-root": {
+                  borderRadius: 0,
+                },
               },
             },
           }}

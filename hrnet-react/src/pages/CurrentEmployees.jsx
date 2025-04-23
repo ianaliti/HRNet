@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import {
-  Table,
-  TableContainer,
-  Paper,
-} from "@mui/material";
+import { Table, TableContainer, Paper } from "@mui/material";
 import { Link } from "react-router-dom";
 import EntriesAndSearchControls from "../components/EntriesAndSearchControls";
 import EmployeeTableHeader from "../components/EmployeeTableHeader";
-import PaginationControls from '../components/PaginationControls';
-import EmployeeTableBody from '../components/EmployeeTableBody';
-
+import PaginationControls from "../components/PaginationControls";
+import EmployeeTableBody from "../components/EmployeeTableBody";
+import dayjs from "dayjs";
 
 export default function CurrentEmployees() {
   const employees = useSelector((state) => state.employees.employees);
+
+  console.log(employees);
 
   const [orderDirection, setOrderDirection] = useState("asc");
   const [orderBy, setOrderBy] = useState("firstName");
@@ -44,10 +42,28 @@ export default function CurrentEmployees() {
   };
 
   const sortedEmployees = [...employees].sort((a, b) => {
-    if (a[orderBy] < b[orderBy]) return orderDirection === "asc" ? -1 : 1;
-    if (a[orderBy] > b[orderBy]) return orderDirection === "asc" ? 1 : -1;
+    let valA = a[orderBy];
+    let valB = b[orderBy];
+  
+    if (valA == null) valA = '';
+    if (valB == null) valB = '';
+  
+    if (orderBy === "dateOfBirth" || orderBy === "startDate") {
+      const dateA = dayjs(valA);
+      const dateB = dayjs(valB);
+      return orderDirection === "asc"
+        ? dateA.isAfter(dateB) ? 1 : -1
+        : dateA.isBefore(dateB) ? 1 : -1;
+    }
+
+    const normA = String(valA).toLowerCase();
+    const normB = String(valB).toLowerCase();
+  
+    if (normA < normB) return orderDirection === "asc" ? -1 : 1;
+    if (normA > normB) return orderDirection === "asc" ? 1 : -1;
     return 0;
   });
+  
 
   const filteredEmployees = sortedEmployees.filter((employee) =>
     Object.values(employee).some((value) =>
@@ -78,7 +94,7 @@ export default function CurrentEmployees() {
             orderDirection={orderDirection}
             handleRequestSort={handleRequestSort}
           />
-          <EmployeeTableBody currentRows={currentRows}/>
+          <EmployeeTableBody currentRows={currentRows} />
         </Table>
       </TableContainer>
 
@@ -95,7 +111,9 @@ export default function CurrentEmployees() {
         />
       </div>
 
-      <Link to="/" className="home-link">Home</Link>
+      <Link to="/" className="home-link">
+        Home
+      </Link>
     </div>
   );
 }

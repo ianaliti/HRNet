@@ -45,7 +45,12 @@ export default function EmployeeList() {
     });
 
     const handleSubmit = (values, { resetForm }) => {
-        dispatch(addEmployee(values));
+        const formattedValues = {
+            ...values,
+            dateOfBirth: dayjs(values.dateOfBirth).format("DD/MM/YYYY"),
+            startDate: dayjs(values.startDate).format("DD/MM/YYYY"),
+          };
+        dispatch(addEmployee(formattedValues));
         setModalOpen(true);
         resetForm();
     };

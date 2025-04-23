@@ -1,7 +1,7 @@
 import React from 'react';
 import { TableHead, TableRow, TableCell, TableSortLabel } from '@mui/material';
 
-const columns = ['firstName', 'lastName', 'dateOfBirth', 'startDate', 'street', 'city', 'state', 'zipCode'];
+const columns = ['First Name', 'Last Name', 'Date of Birth', 'Start Date', 'Street', 'City', 'State', 'Zip Code'];
 
 export default function EmployeeTableHeader({ orderBy, orderDirection, handleRequestSort }) {
     return (

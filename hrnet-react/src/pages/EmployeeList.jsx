@@ -1,15 +1,14 @@
-import React, { useState, Suspense, lazy } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { addEmployee } from '../redux/employeesSlice';
 import dayjs from "dayjs";
-
-const Modal = lazy(() => import('modal-component-iana'));
-const DatePickerForm = lazy(() => import('../components/DataPickerForm.jsx'));
-const AddressForm = lazy(() => import('../components/AddressForm.jsx'));
-const DepartmentSelect = lazy(() => import('../components/DepartmentSelect.jsx'));
+import { Modal } from 'modal-component-iana';
+import { DatePickerForm } from '../components/DataPickerForm.jsx';
+import { AddressForm } from '../components/AddressForm.jsx';
+import { DepartmentSelect } from '../components/DepartmentSelect.jsx';
 
 
 export default function EmployeeList() {
@@ -82,17 +81,13 @@ export default function EmployeeList() {
                                     <Field type="text" name="lastName" />
                                     {errors.lastName && touched.lastName && <div className="error">{errors.lastName}</div>}
                                 </div>
-                                <Suspense fallback={<div>Loading date picker...</div>}>
-                                    <DatePickerForm values={values} setFieldValue={setFieldValue} errors={errors} touched={touched} />
-                                </Suspense>
 
-                                <Suspense fallback={<div>Loading date picker...</div>}>
-                                    <AddressForm values={values} setFieldValue={setFieldValue} errors={errors} touched={touched} />
-                                </Suspense>
-                                
-                                <Suspense fallback={<div>Loading departments...</div>}>
-                                    <DepartmentSelect values={values} errors={errors} touched={touched} />
-                                </Suspense>
+                                <DatePickerForm values={values} setFieldValue={setFieldValue} errors={errors} touched={touched} />
+
+                                <AddressForm values={values} setFieldValue={setFieldValue} errors={errors} touched={touched} />
+
+                                <DepartmentSelect values={values} errors={errors} touched={touched} />
+
 
                                 <button type='submit'>Save</button>
                             </div>
@@ -101,9 +96,7 @@ export default function EmployeeList() {
                 </Formik >
             </div>
             {modalOpen && (
-                <Suspense fallback={<div>Loading modal...</div>}>
-                    <Modal setModalOpen={setModalOpen}/>
-                </Suspense>
+                <Modal setModalOpen={setModalOpen}/>
             )}
         </div >
     )

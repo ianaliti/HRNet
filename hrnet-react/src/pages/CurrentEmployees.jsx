@@ -61,7 +61,7 @@ export default function CurrentEmployees() {
   const totalPages = Math.ceil(filteredEmployees.length / rowsPerPage);
 
   return (
-    <div id="employee-div" className="container">
+    <div id="employee-div" className="employee-container">
       <h1>Current Employees</h1>
 
       <EntriesAndSearchControls

@@ -5,7 +5,7 @@ export const DepartmentSelect = ({ values, errors, touched }) => (
     <>
         <label htmlFor="department">Department</label>
         <div className="input-container">
-            <Field name="department" as="select">
+            <Field name="department" as="select" className='custom-select'>
                 <option value="">-- Select --</option>
                 <option value="sales">Sales</option>
                 <option value="marketing">Marketing</option>

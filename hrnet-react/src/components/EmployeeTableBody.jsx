@@ -16,8 +16,8 @@ export default function EmployeeTableBody({ currentRows }) {
 
     return (
         <TableBody>
-            {currentRows.map((employee) => (
-                <TableRow key={employee.id}>
+            {currentRows.map((employee, index) => (
+                <TableRow key={index}>
                     <TableCell>{employee.firstName}</TableCell>
                     <TableCell align='right'>{employee.lastName}</TableCell>
                     <TableCell align='right'>{employee.dateOfBirth}</TableCell>

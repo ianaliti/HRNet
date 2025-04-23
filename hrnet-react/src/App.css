@@ -25,7 +25,6 @@ html, body {
 
 .container {
   background: #fff;
-  padding: 20px;
   width: 100%;
   box-sizing: border-box;
   display: flex;
@@ -51,18 +50,31 @@ form {
 .empolyee-form select {
   width: 100%;
   box-sizing: border-box;
-  border: solid 1px rgb(91, 90, 90);
+  border: solid 1px rgb(142, 142, 142);
   height: 30px;
 }
+
+
 .input-container {
   display: flex;
   flex-direction: column;
-  min-height: 60px; 
+  min-height: 50px; 
+  margin: 5px 0;
 }
 
+.custom-select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  background-color: gainsboro;
+  color: #333;
+  appearance: none; 
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+}
 
 .address {
-  margin-top: 10px;
+  margin: 10px 0;
 }
 
 .empolyee-form div {
@@ -75,32 +87,18 @@ form {
   position: absolute;
 }
 
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
+button {
+  background-color: #6b4caf;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
 }
 
-.modal {
-  background: white;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  text-align: center;
+.employee-container {
+  margin: 20px;
 }
-
-.modal button {
-  margin-top: 10px;
-  padding: 5px 10px;
-}
-
 
 h1 {
   text-align: center;
@@ -113,7 +111,7 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin: 30px 0 10px;
   width: 100%;
 }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Field } from 'formik';
 import states from '../data/data';
 
-export const AddressForm = ({ values, setFieldValue, errors, touched }) => (
+ export const AddressForm = ({ values, setFieldValue, errors, touched }) => (
     <fieldset className="address">
         <legend>Address</legend>
 
@@ -19,7 +19,7 @@ export const AddressForm = ({ values, setFieldValue, errors, touched }) => (
         </div>
 
         <div className="input-container">
-            <Field as="select" name="state">
+            <Field as="select" name="state" className='custom-select'>
                 <option value="">-- Select --</option>
                 {states.map((state) => (
                     <option key={state.abbreviation} value={state.abbreviation}>{state.name}</option>

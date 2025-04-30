@@ -7,7 +7,6 @@ function App() {
 
   return (
    <Routes>
-     {/* <Route path="/" element={<Home/>} /> */}
      <Route path="/" element={<EmployeeList />} />
      <Route path="/current-employee" element={<CurrentEmployees />} />
    </Routes>

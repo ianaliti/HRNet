@@ -2,7 +2,6 @@ import React from "react";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
 
 export const DatePickerForm = ({ values, setFieldValue, errors, touched }) => (
   <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -10,7 +9,7 @@ export const DatePickerForm = ({ values, setFieldValue, errors, touched }) => (
     <div className="input-container">
       <DatePicker
         value={values.dateOfBirth}
-        onChange={(value) => setFieldValue("dateOfBirth", value)}
+        onChange={(value) => setFieldValue("dateOfBirth", value ? value.format("DD/MM/YYYY") : "")}
         format="DD/MM/YYYY"
         slotProps={{
           textField: {
@@ -42,7 +41,7 @@ export const DatePickerForm = ({ values, setFieldValue, errors, touched }) => (
     <div className="input-container">
       <DatePicker
         value={values.startDate}
-        onChange={(value) => setFieldValue("startDate", value)}
+        onChange={(value) => setFieldValue("startDate", value ? value.format("DD/MM/YYYY") : "")}
         format="DD/MM/YYYY"
         slotProps={{
             textField: {

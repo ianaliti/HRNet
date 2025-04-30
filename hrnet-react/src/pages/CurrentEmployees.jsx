@@ -7,6 +7,9 @@ import EmployeeTableHeader from "../components/EmployeeTableHeader";
 import PaginationControls from "../components/PaginationControls";
 import EmployeeTableBody from "../components/EmployeeTableBody";
 import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+
+dayjs.extend(customParseFormat);
 
 export default function CurrentEmployees() {
   const employees = useSelector((state) => state.employees.employees);
@@ -49,8 +52,9 @@ export default function CurrentEmployees() {
     if (valB == null) valB = '';
   
     if (orderBy === "dateOfBirth" || orderBy === "startDate") {
-      const dateA = dayjs(valA);
-      const dateB = dayjs(valB);
+      const format = "DD/MM/YYYY";
+      const dateA = dayjs(valA, format);
+      const dateB = dayjs(valB, format);
       return orderDirection === "asc"
         ? dateA.isAfter(dateB) ? 1 : -1
         : dateA.isBefore(dateB) ? 1 : -1;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Field } from 'formik';
 
-export const DepartmentSelect = ({ values, errors, touched }) => (
+export const DepartmentSelect = ({ errors, touched }) => (
     <>
         <label htmlFor="department">Department</label>
         <div className="input-container">

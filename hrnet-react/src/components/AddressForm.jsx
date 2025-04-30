@@ -2,7 +2,7 @@ import React from 'react';
 import { Field } from 'formik';
 import states from '../data/data';
 
- export const AddressForm = ({ values, setFieldValue, errors, touched }) => (
+ export const AddressForm = ({ errors, touched }) => (
     <fieldset className="address">
         <legend>Address</legend>
 
